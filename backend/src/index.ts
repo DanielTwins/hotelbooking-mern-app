@@ -1,18 +1,19 @@
-import express, { Request, Response } from "express";
-import cors from "cors";
-import "dotenv/config";
+// import required modules
+import express, { Request, Response } from "express"; // import types Request and Response
+import cors from "cors"; // import the CORS middleware for handling cross-origin resource sharing
+import "dotenv/config"; // import and configuering dotenv module for managing environment variables
 
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+const app = express(); // create and initialize an express app 
+app.use(express.json()); // convert automatically the body of API requests into JSON 
+app.use(express.urlencoded({ extended: true })); // use middleware to parse URL-encoded data in incoming requests
+app.use(cors()); // use CORS middleware to handle cross-origin resource sharing
 
-// created an endpoint api/test and will return a json object as response
+// create an API endpoint at "/api/test"
 app.get("/api/test", async (req: Request, res: Response) => {
-  res.json({ message: "Hello from express endpoint!"})
+  res.json({ message: "Hello from express endpoint!"}) // responde with a JSON object when a GET request is made to "/api/test"
 });
 
-// start the server, listen to port 7000 
-app.listen(7000, () => {
+// start the server, listen to port 7000
+app.listen(7000, () => { 
   console.log("Server running on localhost:7000")
-})
+}) 
