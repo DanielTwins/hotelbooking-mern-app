@@ -17,3 +17,4 @@ app.get("/api/test", async (req: Request, res: Response) => {
 app.listen(7000, () => { 
   console.log("Server running on localhost:7000")
 }) 
+ 
