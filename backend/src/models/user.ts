@@ -1,4 +1,5 @@
 import mongoose from "mongoose"; // import mongoose library
+import bcrypt from 'bcryptjs'
 
 // define type of UserType included its properties for a user doc in MongoDB collection
 export type UserType = {
@@ -16,6 +17,14 @@ const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true, unique: true },
   lastName: { type: String, required: true },
 });
+
+// as a middleware for mongodb and handling the hash logic here 
+userSchema.pre("save", async function(next) {
+  if(this.isModified('password')){
+    this.password = await bcrypt.hash(this.password, 8)
+  }
+  next();
+})
 
 // create a mongoose model named User based on the userSchema, also specifies the type
 const User = mongoose.model<UserType>("User", userSchema);
