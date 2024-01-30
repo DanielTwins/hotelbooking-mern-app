@@ -1,11 +1,24 @@
 import express, { Request, Response } from "express";
 import User from "../models/user";
 import jwt from "jsonwebtoken";
+import { check, validationResult } from 'express-validator'
 
 const router = express.Router();
 
 // request with /api/users/register then use this handler
-router.post("/register", async (req: Request, res: Response) => {
+//* add middleware to the endpoint handler - add array with validations using express-validator 
+router.post("/register", [
+  check("firstName", "First Name is required!").isString(),
+  check("lastName", "First Name is required!").isString(),
+  check("email", "Email is required!").isEmail(),
+  check("password", "Password with 6 or more characters required!").isLength({ min: 6}),
+], async (req: Request, res: Response) => {
+
+  //* error handling using validator
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ message: errors.array()})
+  }    
   try {
     // check if user already exists - check user model (user doc in database)
     // if the email matches the email which we received in the body of our request
