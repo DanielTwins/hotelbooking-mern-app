@@ -4,6 +4,7 @@ import cors from "cors"; // import the CORS middleware for handling cross-origin
 import "dotenv/config"; // import and configuering dotenv module for managing environment variables
 import mongoose from 'mongoose'; // connect to the database and interact with database
 import userRoutes from "./routes/users";
+import authRoutes from './routes/auth';
 
 // connect to MongoDB database using mongoose by providing the connection string from .env
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string) 
@@ -18,8 +19,9 @@ app.use(cors()); // use CORS middleware to handle cross-origin resource sharing
   res.json({ message: "Hello from express endpoint!"}) // responde with a JSON object when a GET request is made to "/api/test"
 }); */
 
-// request that comes to /api/users/ then pass the request to userRoute
+app.use("/api/auth", authRoutes)
 app.use("/api/users/", userRoutes)
+// request that comes to /api/users/ then pass the request to userRoute
 
 // start the server, listen to port 7000
 app.listen(7000, () => { 
