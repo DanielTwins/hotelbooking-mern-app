@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import * as apiClient from '../api-client';
 
 // define the type structure of the form data using typescript
-type RegisterFormData = {
+export type RegisterFormData = {
   firstName: string;
   lastName: string;
   email: string;
@@ -9,18 +11,34 @@ type RegisterFormData = {
   confirmPassword: string;
 };
 
+// define the Register component
 const Register = () => {
   // destructure functions and properties from useForm hook
   const { register, watch, handleSubmit, formState: { errors } } = useForm<RegisterFormData>();
 
-  // handle form submision 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data) // log form data to the console
-  }) 
+  // use the useMutation hook to manage the registration mutation
+  const mutation = useMutation(apiClient.register, {
+    // onSuccess is called when the mutation is successful
+    onSuccess: () => {
+      console.log("Regsitration successful!")
+    },
+    // onError is called when the mutation encounters an error
+    onError: (error: Error) => { // Error comes from api-client
+      console.log(error.message)
+    }
+  })
 
+  // onSubmit handler for form submittion
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+
+    // call mutation hook and register function from api-client
+    mutation.mutate(data);
+  })   
+  
   return (
     // form element with onSubmit handler 
-    <form onSubmit={onSubmit} className="flex flex-col gap-5">
+    <form className="flex flex-col gap-5" onSubmit={onSubmit}>
       <h2 className="">Create an Account</h2>
       <div className="flex flex-col md:flex-row gap-5">
         <label htmlFor="" className="text-gray-700 text-sm font-bold flex-1">
