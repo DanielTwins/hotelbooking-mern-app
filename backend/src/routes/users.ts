@@ -49,7 +49,9 @@ router.post("/register", [
       maxAge: 86400000, // the same time as auth token expires in, maxAge in milliseconds
     })
 
-    return res.sendStatus(200)
+    // send a JSON message to the response body instead of a plain text (string) of OK
+    // check the request ersponse on the browser, network => preview tab
+    return res.status(200).send({ message: "User registered OK"})
 
   } catch (error) {
     console.log(error);
