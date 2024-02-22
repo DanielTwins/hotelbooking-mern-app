@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { AppContextProvider } from "./contexts/AppContext.tsx";
 
 // create a new instance of QueryClient with custom default options
 const queryClient = new QueryClient({
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     //* wrap the app comp. with QueryClientProvider to provide React Query functionality
     <QueryClientProvider client={queryClient}>
-      <App />
+      <AppContextProvider>
+        <App />
+      </AppContextProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );
