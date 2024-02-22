@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    //* wrap the app comp. with QueryClientProvider to provide React Query functionality
+    {/*  wrap the app comp. with QueryClientProvider to provide React Query functionality */}
     <QueryClientProvider client={queryClient}>
       <AppContextProvider>
         <App />
